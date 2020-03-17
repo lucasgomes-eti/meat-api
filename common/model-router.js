@@ -38,7 +38,7 @@ class ModelRouter extends Router {
 
     replace = (req, resp, next) => {
         const options = { override: true, runValidators: true }
-        this.model.update({ _id: req.params.id }, req.body, options)
+        this.model.updateOne({ _id: req.params.id }, req.body, options)
             .exec().then(result => {
                 if (result.n) {
                     return this.model.findById(req.params.id)

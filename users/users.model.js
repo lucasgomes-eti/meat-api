@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
             message: '{PATH}: Invalid CPF ({VALUE})'
         }
     }
-}, { versionKey: false })
+})
 
 const hashPassword = (obj, next) => {
     bcrypt.hash(obj.password, environment.security.saltOrRounds)
