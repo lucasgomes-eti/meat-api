@@ -4,11 +4,15 @@ const NotFoundError = require('restify-errors').NotFoundError
 class Router extends EventEmitter {
     applyRoutes(application) { }
 
+    envelope(document) {
+        return document
+    }
+
     render(response, next) {
         return (document) => {
             if (document) {
                 this.emit('beforeRender', document)
-                response.json(document)
+                response.json(this.envelope(document))
             } else {
                 throw new NotFoundError('Document not found')
             }
@@ -19,8 +23,9 @@ class Router extends EventEmitter {
     renderAll(response, next) {
         return (documents) => {
             if (documents) {
-                documents.forEach(element => {
+                documents.forEach((element, index, array) => {
                     this.emit('beforeRender', element)
+                    array[index] = this.envelope(element)
                 });
                 response.json(documents)
             } else {

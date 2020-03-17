@@ -6,10 +6,17 @@ class ModelRouter extends Router {
     constructor(model) {
         super()
         this.model = model
+        this.basePath = `/${model.collection.name}`
     }
 
     prepare = (query) => {
         return query
+    }
+
+    envelope(document) {
+        let resource = Object.assign({ _links: {} }, document.toJSON())
+        resource._links.self = `${this.basePath}/${resource._id}`
+        return resource
     }
 
     validateId = (req, resp, next) => {
