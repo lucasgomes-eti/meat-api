@@ -8,8 +8,12 @@ class ModelRouter extends Router {
         this.model = model
     }
 
+    prepare = (query) => {
+        return query
+    }
+
     validateId = (req, resp, next) => {
-        if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             next(new NotFoundError('Document not found'))
         } else {
             next()
@@ -17,13 +21,13 @@ class ModelRouter extends Router {
     }
 
     findAll = (req, resp, next) => {
-        this.model.find()
+        this.prepare(this.model.find())
             .then(this.renderAll(resp, next))
             .catch(next)
     }
 
     findById = (req, resp, next) => {
-        this.model.findById(req.params.id)
+        this.prepare(this.model.findById(req.params.id))
             .then(this.render(resp, next))
             .catch(next)
     }
@@ -41,7 +45,7 @@ class ModelRouter extends Router {
         this.model.updateOne({ _id: req.params.id }, req.body, options)
             .exec().then(result => {
                 if (result.n) {
-                    return this.model.findById(req.params.id)
+                    return this.prepare(this.model.findById(req.params.id))
                 } else {
                     throw new NotFoundError('Document not found')
                 }
@@ -51,7 +55,7 @@ class ModelRouter extends Router {
 
     update = (req, resp, next) => {
         const options = { new: true, runValidators: true }
-        this.model.findByIdAndUpdate(req.params.id, req.body, options)
+        this.prepare(this.model.findByIdAndUpdate(req.params.id, req.body, options))
             .then(this.render(resp, next))
             .catch(next)
     }

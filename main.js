@@ -1,10 +1,11 @@
 const Server = require('./server/server')
 const usersRouter = require('./users/users.router')
 const restaurantsRouter = require('./restaurants/restaurants.router')
+const reviewsRouter = require('./reviews/reviews.router')
 
 const server = new Server()
 
-server.bootstrap([usersRouter, restaurantsRouter]).then(server => {
+server.bootstrap([usersRouter, restaurantsRouter, reviewsRouter]).then(server => {
     console.log('Started at:', server.application.address())
 }).catch(error => {
     console.log('Failed to start')
