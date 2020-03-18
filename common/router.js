@@ -8,6 +8,10 @@ class Router extends EventEmitter {
         return document
     }
 
+    envelopeAll(documents, options = {}) {
+        return documents
+    }
+
     render(response, next) {
         return (document) => {
             if (document) {
@@ -20,16 +24,16 @@ class Router extends EventEmitter {
         }
     }
 
-    renderAll(response, next) {
+    renderAll(response, next, options = {}) {
         return (documents) => {
             if (documents) {
                 documents.forEach((element, index, array) => {
                     this.emit('beforeRender', element)
                     array[index] = this.envelope(element)
                 });
-                response.json(documents)
+                response.json(this.envelopeAll(documents, options))
             } else {
-                response.json([])
+                response.json(this.envelopeAll([]))
             }
             return next()
         }

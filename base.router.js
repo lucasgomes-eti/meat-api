@@ -20,7 +20,13 @@ class BaseRouter extends ModelRouter {
     }
 
     find = (req, resp, next) => {
-        resp.json({ routes: [{ users: '/users'}] })
+        resp.json({
+            routes: {
+                users: '/users',
+                restaurants: '/restaurants',
+                reviews: '/reviews'
+            }
+        })
         next()
     }
 }
