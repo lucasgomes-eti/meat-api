@@ -9,8 +9,6 @@ class ModelRouter extends Router {
         this.basePath = `/${model.collection.name}`
     }
 
-    pageSize = 4
-
     prepare = (query) => {
         return query
     }
@@ -50,18 +48,19 @@ class ModelRouter extends Router {
 
     findAll = (req, resp, next) => {
         let page = parseInt(req.query._page || 1)
+        let pageSize = parseInt(req.query._pageSize || 20)
         page = page > 0 ? page : 1
-        const skip = (page - 1) * this.pageSize
+        const skip = (page - 1) * pageSize
 
-        this.model.count({}).exec()
+        this.model.countDocuments({}).exec()
             .then(count => this.prepare(
                 this.model.find()
                     .skip(skip)
-                    .limit(this.pageSize))
+                    .limit(pageSize))
                 .then(this.renderAll(resp, next, {
                     page,
                     count,
-                    pageSize: this.pageSize,
+                    pageSize,
                     url: req.url
                 })))
             .catch(next)

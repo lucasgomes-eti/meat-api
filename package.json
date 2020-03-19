@@ -4,15 +4,20 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.8",
+    "jest": "^25.1.0",
     "mongoose": "5.8.11",
     "restify": "^8.5.1",
-    "restify-errors": "^8.0.2"
+    "restify-errors": "^8.0.2",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }
