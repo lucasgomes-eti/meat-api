@@ -33,8 +33,20 @@ const userSchema = mongoose.Schema({
             validator: validateCPF,
             message: '{PATH}: Invalid CPF ({VALUE})'
         }
+    },
+    profiles: {
+        type: [String],
+        required: false
     }
 })
+
+userSchema.methods.matches = function (password) {
+    return bcrypt.compareSync(password, this.password)
+}
+
+userSchema.methods.hasAny = function (...profiles) {
+    return profiles.some(profile => this.profiles.indexOf(profile) != -1)
+}
 
 const hashPassword = (obj, next) => {
     bcrypt.hash(obj.password, environment.security.saltOrRounds)

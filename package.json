@@ -12,6 +12,7 @@
   "dependencies": {
     "bcrypt": "^3.0.8",
     "jest": "^25.1.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "5.8.11",
     "restify": "^8.5.1",
     "restify-errors": "^8.0.2",

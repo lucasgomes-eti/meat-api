@@ -3,6 +3,7 @@ const environment = require('../common/environment')
 const mongoose = require('mongoose')
 const mergePatchBodyParser = require('./merge-patch.parser')
 const handleError = require('./error.handler')
+const tokenParser = require('../security/token.parser')
 
 class Server {
     initializeDb() {
@@ -24,6 +25,7 @@ class Server {
                 this.application.use(restify.plugins.queryParser())
                 this.application.use(restify.plugins.bodyParser())
                 this.application.use(mergePatchBodyParser)
+                this.application.use(tokenParser)
 
                 // routes
 
